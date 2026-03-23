@@ -48,7 +48,7 @@ Best for:
 
 ## Pattern 2: Draft-first execution
 
-This should be the default for agentic trading unless user state such as `yolo_mode` means the create call can place immediately.
+This should be the default for agentic trading, while still checking for cases where create is immediately placed.
 
 Flow:
 1. Fetch candidate accounts with `get_accounts` if needed.

@@ -176,11 +176,11 @@ python3 "{baseDir}/scripts/tradeit_api.py" get-session-url --target trade
 ### When the user wants an API-native trade flow
 
 1. Fetch accounts if the target account is ambiguous.
-2. Check user context when possible, including whether `yolo_mode` is enabled.
+2. Check user context when possible.
 3. Create the trade.
 4. Inspect the returned trade status.
 5. If the trade is still a draft, summarize it in plain English and wait for explicit confirmation before calling `execute-trade`.
-6. If the trade is already placed because `yolo_mode` is enabled, report that clearly instead of asking for a second execution step.
+6. If the trade is already placed, report that clearly instead of asking for a second execution step.
 
 ### When the user should finish in hosted UI
 
@@ -189,7 +189,7 @@ Generate a trade session URL and send the user to that review flow.
 ## Safety rules
 
 - Never execute trades silently from the agent side.
-- Treat `create-trade` and `create-options-trade` as draft-first by default, but check the returned status because `yolo_mode` can cause immediate placement.
+- Treat `create-trade` and `create-options-trade` as draft-first by default, but always check the returned status because create can place immediately for some users.
 - Treat `execute-trade` as the commitment step only when the create call did not already place the trade.
 - Ask for missing symbol, side, amount, account, and order type together.
 - For `limit` and `stop_limit`, require `limit_price`.
@@ -220,4 +220,4 @@ When reporting results:
 - summarize the important fields in plain English
 - include raw JSON only when the user asks or debugging is needed
 - redact secrets if the API response ever reflects them
-- when `yolo_mode` caused immediate placement, say that explicitly
+- when immediate placement happened, say that explicitly

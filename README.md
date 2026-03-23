@@ -32,7 +32,7 @@ Key points:
 - Trade It users can revoke access directly from their brokerage or on https://tradeit.app.
 - Trade It can place trades on a user's behalf, but cannot withdraw, transfer, or custody assets.
 - This skill is written to prefer explicit confirmation before execution.
-- The skill also acknowledges `yolo_mode`, where Trade It may place a trade immediately on create for users who have intentionally enabled that behavior. This is disabled by default.
+- Some accounts may allow immediate placement on create if the user has enabled that setting.
 
 Read more:
 - Trade It site: <https://tradeit.app>
@@ -78,7 +78,7 @@ Gather info and place trade orders entirely in-chat.
 ### 2. Hosted browser handoff
 A more visual experience. Trade It generates session URLs so you can connect brokerages or review, edit, and place trades in the browser.
 
-## Drafts, execution, and `yolo_mode`
+## Drafts and execution
 
 The default and recommended trading flow is:
 1. create a trade
@@ -86,7 +86,7 @@ The default and recommended trading flow is:
 3. if still draft, ask for confirmation
 4. execute if confirmed
 
-But if users wish to give the bot complete control to execute trades on their behalf without requesting confirmation, they may enable `yolo_mode` in the settings on https://tradeit.app.
+If users enable immediate placement in Trade It settings, create calls may submit orders without a second execution step.
 
 When enabled, a `create_trade` or `create_options_trade` call may place the trade immediately, skipping the separate execution step.
 
@@ -99,7 +99,7 @@ Use this sequence as the default agent behavior:
 2. create trade (`create-trade` or `create-options-trade`)
 3. inspect returned `status`
 4. if `status` is `draft`, ask for explicit confirmation before `execute-trade`
-5. if `status` is already `placed`, report that `yolo_mode` executed immediately and do not execute again
+5. if `status` is already `placed`, report immediate placement and do not execute again
 
 ## Repo contents
 

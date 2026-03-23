@@ -117,7 +117,7 @@ Representative response:
 }
 ```
 
-Use this when you need defaults, brokerage linkage, or `yolo_mode` state.
+Use this when you need defaults and brokerage linkage.
 
 ---
 
@@ -392,7 +392,7 @@ Representative response:
 
 Behavior:
 - normally creates a draft
-- if the authenticated user has `yolo_mode` enabled, the trade may be placed automatically on create
+- for some users, create may place immediately based on account settings
 - always inspect the returned `status`
 - request uses `buy_or_sell`; response uses `action`
 
@@ -505,7 +505,7 @@ Representative response:
 
 Behavior:
 - normally creates a draft
-- if the authenticated user has `yolo_mode` enabled, the trade may be placed automatically on create
+- for some users, create may place immediately based on account settings
 - always inspect the returned `status`
 
 ---
@@ -553,7 +553,7 @@ Representative response:
 }
 ```
 
-Use this as the explicit commit step when the create call did not already place the trade due to `yolo_mode`.
+Use this as the explicit commit step when the create call returned a still-executable draft.
 
 ---
 
