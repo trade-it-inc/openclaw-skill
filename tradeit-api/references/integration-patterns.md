@@ -2,7 +2,7 @@
 
 ## Core product choice
 
-Trade It gives you two clean integration modes for AI products:
+Trade It provides two integration modes for AI products:
 
 ### Mode A: API-native conversational trading
 Use when your agent should:
@@ -27,7 +27,7 @@ Use when your agent should:
 Key endpoint:
 - `POST /api/session/url`
 
-The smart product move is often to combine both.
+Many products combine both modes: API-native steps for automation and hosted UI for connection/review.
 
 ## Pattern 1: Connect on demand
 
@@ -128,4 +128,3 @@ Own user interaction:
 
 ### Missing inputs
 "I need symbol, side, amount, account, and order type. If it's limit or stop-based, I also need the price levels."
-ount, and order type. If it's limit or stop-based, I also need the price levels."

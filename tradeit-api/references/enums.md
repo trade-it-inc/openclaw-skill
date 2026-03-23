@@ -31,6 +31,8 @@ Use these values exactly. Do not invent alternates.
 }
 ```
 
+Use `Verified` before attempting account reads or trade placement.
+
 ## Trade action
 
 ```json
@@ -42,6 +44,8 @@ Use these values exactly. Do not invent alternates.
 }
 ```
 
+Use `buy` to open or add long exposure, and `sell` to reduce or close supported positions.
+
 ## Position effect
 
 ```json
@@ -52,6 +56,8 @@ Use these values exactly. Do not invent alternates.
   }
 }
 ```
+
+Use `open` when initiating a position and `close` when reducing or exiting an existing position.
 
 ## Order type
 
@@ -66,6 +72,8 @@ Use these values exactly. Do not invent alternates.
 }
 ```
 
+`market` executes at prevailing price, `limit` executes at your limit price or better, and stop variants trigger from stop conditions.
+
 ## Order direction
 
 ```json
@@ -76,6 +84,8 @@ Use these values exactly. Do not invent alternates.
   }
 }
 ```
+
+For options, `debit` means paying premium; `credit` means receiving premium.
 
 ## Time in force
 
@@ -90,6 +100,8 @@ Use these values exactly. Do not invent alternates.
 }
 ```
 
+`day` expires at end of trading day; `gtc` stays active until filled/canceled (broker-specific limits apply).
+
 ## Trade unit
 
 ```json
@@ -101,13 +113,14 @@ Use these values exactly. Do not invent alternates.
 }
 ```
 
+`dollars` targets a notional amount; `shares` targets an explicit quantity.
+
 ## Trade status
 
 ```json
 {
   "TradeStatus": {
     "Draft": "draft",
-    "Pending": "pending",
     "Placed": "placed",
     "PartiallyFilled": "partially_filled",
     "Complete": "complete",
@@ -117,6 +130,8 @@ Use these values exactly. Do not invent alternates.
   }
 }
 ```
+
+`draft` usually means confirmation is still needed, while `placed` means it has already been submitted to the brokerage.
 
 ## Guidance
 

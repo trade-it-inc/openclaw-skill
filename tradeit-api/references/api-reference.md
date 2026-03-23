@@ -13,11 +13,36 @@ Authorization: Bearer {{access_token}}
 https://api.tradeit.app
 ```
 
-Auth models mentioned by the collection:
-- API keys for direct API access
-- OAuth bearer tokens for partner integrations
+Use bearer auth in all cases. `TRADEIT_ACCESS_TOKEN` may be an API key token or an OAuth access token.
 
-In either case, use bearer auth server-side.
+## Error handling contract
+
+When the helper script receives a non-2xx response, it returns:
+
+```json
+{
+  "status": 401,
+  "response": {
+    "error": "Token expired"
+  }
+}
+```
+
+Recommended handling:
+- `401`: token invalid or expired; re-authenticate and retry once with a fresh token.
+- `403`: permission issue; verify account access/scope and do not blindly retry.
+- `404`: resource not found; re-check IDs (`account_id`, `trade_id`, `connection_id`).
+- `422`: validation issue; show field-level corrections and retry after user confirmation.
+- `5xx`: transient server issue; retry with backoff and clear user messaging.
+
+## Parameter and casing notes
+
+Trade It uses endpoint-specific field casing. Do not normalize globally.
+
+- Query uses `orderBy` for `GET /api/trade` sorting.
+- Session URL requests use `brokerageId`.
+- Tool params are typically snake_case (`buy_or_sell`, `time_in_force`, `account_id`).
+- Create request/response naming differs: request uses `buy_or_sell`, response uses `action`.
 
 ## Endpoint summary
 
@@ -190,10 +215,12 @@ Supported query params:
   "orderBy": "id DESC",
   "filter": "created_at >= 2026-01-01T00:00:00.000Z",
   "cursor": "819",
-  "refresh": false,
+  "refresh": "false",
   "expand": "asset"
 }
 ```
+
+`refresh` is sent as query text (`"true"` or `"false"`).
 
 Representative response:
 
@@ -313,6 +340,20 @@ Request:
 }
 ```
 
+Required params:
+
+| field | required | type | notes |
+|---|---|---|---|
+| `symbol` | yes | string | asset symbol |
+| `amount` | yes | number | dollars or shares based on `unit` |
+| `unit` | yes | string | `dollars` or `shares` |
+| `buy_or_sell` | yes | string | `buy` or `sell` |
+| `order_type` | yes | string | `market`, `limit`, `stop`, `stop_limit` |
+| `time_in_force` | yes | string | `day`, `gtc`, `ioc`, `fok` |
+| `account_id` | yes | number | destination account |
+| `limit_price` | conditional | number | required for `limit` and `stop_limit` |
+| `stop_price` | conditional | number | required when order type/payload needs stop price |
+
 Representative response:
 
 ```json
@@ -353,6 +394,7 @@ Behavior:
 - normally creates a draft
 - if the authenticated user has `yolo_mode` enabled, the trade may be placed automatically on create
 - always inspect the returned `status`
+- request uses `buy_or_sell`; response uses `action`
 
 ---
 
@@ -394,6 +436,19 @@ Request:
   }
 }
 ```
+
+Required params:
+
+| field | required | type | notes |
+|---|---|---|---|
+| `symbol` | yes | string | underlying symbol |
+| `legs` | yes | array | one or more option legs |
+| `direction` | yes | string | `debit` or `credit` |
+| `order_type` | yes | string | usually `limit` for multi-leg |
+| `time_in_force` | yes | string | `day`, `gtc`, `ioc`, `fok` |
+| `account_id` | yes | number | destination account |
+| `limit_price` | conditional | number | required for `limit` and `stop_limit` |
+| `stop_price` | conditional | number | required when order type/payload needs stop price |
 
 Representative response:
 
@@ -472,6 +527,12 @@ Request:
   }
 }
 ```
+
+Required params:
+
+| field | required | type | notes |
+|---|---|---|---|
+| `trade_id` | yes | number | must refer to a trade that is still executable |
 
 Representative response:
 

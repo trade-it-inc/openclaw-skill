@@ -13,7 +13,8 @@ These are the kinds of requests that should trigger this skill:
 
 ```ts
 async function tradeItFetch<T>(path: string, init: RequestInit, accessToken: string): Promise<T> {
-  const res = await fetch(`${process.env.TRADEIT_API_URL}${path}`, {
+  const baseUrl = 'https://api.tradeit.app';
+  const res = await fetch(`${baseUrl}${path}`, {
     ...init,
     headers: {
       'Content-Type': 'application/json',
@@ -23,7 +24,17 @@ async function tradeItFetch<T>(path: string, init: RequestInit, accessToken: str
   });
 
   if (!res.ok) {
-    throw new Error(`Trade It request failed: ${res.status} ${await res.text()}`);
+    const raw = await res.text();
+    let parsed: unknown = raw;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      // Keep raw text when the body is not JSON.
+    }
+    throw new Error(JSON.stringify({
+      status: res.status,
+      response: parsed,
+    }));
   }
 
   return res.json() as Promise<T>;
@@ -152,6 +163,8 @@ export function getTradeItTrades(accessToken: string, query = 'orderBy=id DESC')
 }
 ```
 
+Note: app helper names (for example, `getTradeItUser`) are local naming. API tool execution still uses literal `toolName` values like `get_accounts`, `create_trade`, and `execute_trade`.
+
 ## Example chatbot flow
 
 ### Not connected yet
@@ -201,3 +214,41 @@ Assistant:
 
 Backend action:
 - `execute_trade`
+
+## Failure-path examples
+
+### Create request failed validation (`422`)
+
+```json
+{
+  "status": 422,
+  "response": {
+    "message": "Validation failed",
+    "errors": [
+      { "field": "limit_price", "message": "limit_price is required for limit orders" }
+    ]
+  }
+}
+```
+
+Handling:
+- show the missing/invalid fields to the user
+- fix inputs
+- recreate trade only after user confirms the corrected order
+
+### Execute request on non-draft trade
+
+```json
+{
+  "status": 422,
+  "response": {
+    "message": "Trade is not executable",
+    "trade_status": "placed"
+  }
+}
+```
+
+Handling:
+- do not retry execution blindly
+- report that the trade is already placed (or otherwise not executable)
+- fetch latest trade state if needed for user confirmation

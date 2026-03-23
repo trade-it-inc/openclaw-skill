@@ -20,7 +20,13 @@ Skill path helpers:
 Expected env vars for the agent run:
 - `TRADEIT_ACCESS_TOKEN` required
 
-`TRADEIT_ACCESS_TOKEN` can be an API key or OAuth bearer token.
+Always send it as:
+
+```http
+Authorization: Bearer <TRADEIT_ACCESS_TOKEN>
+```
+
+`TRADEIT_ACCESS_TOKEN` can come from an API key token or an OAuth access token.
 
 Do not print the token back to the user.
 
@@ -36,6 +42,8 @@ Important posture:
 ## Command patterns
 
 Always call the script with `python3`.
+
+Default API base URL is `https://api.tradeit.app`.
 
 ### Read data
 
@@ -73,8 +81,9 @@ python3 "{baseDir}/scripts/tradeit_api.py" get-connection --id 395
 
 Before building payloads, read `references/enums.md` when you need brokerage ids, time-in-force values, order types, trade units, or statuses.
 
-For non-trivial payloads, write JSON to a temp file first, then pass `--params-file`.
-This avoids shell escaping mistakes.
+For non-trivial payloads, use one of these:
+- `--params '<json>'` for short inline payloads
+- `--params-file <path>` when filesystem writes are available and payloads are larger
 
 Simple trade draft:
 
@@ -195,6 +204,16 @@ Generate a trade session URL and send the user to that review flow.
 - `references/examples.md`
 - `references/security.md`
 
+## Naming conventions and mappings
+
+Use API `toolName` values exactly as literals:
+- `get_accounts`
+- `create_trade`
+- `create_options_trade`
+- `execute_trade`
+
+App helper names in other codebases may use camelCase (for example, `getTradeItUser`). Treat those as wrapper naming only, not API `toolName` values.
+
 ## User-facing behavior
 
 When reporting results:
@@ -202,4 +221,3 @@ When reporting results:
 - include raw JSON only when the user asks or debugging is needed
 - redact secrets if the API response ever reflects them
 - when `yolo_mode` caused immediate placement, say that explicitly
-t, say that explicitly

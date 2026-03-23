@@ -20,7 +20,7 @@ The skill includes:
 
 ## Why this exists
 
-Trade It is a great fit for OpenClaw and other AI agents because it gives chat-driven products a clean path to real brokerage actions without forcing every integrator to build custom brokerage support from scratch.
+Trade It gives OpenClaw agents a single brokerage integration layer, so teams can support real brokerage actions without building broker-specific flows one by one.
 
 ## Trust, security, and user control
 
@@ -51,14 +51,22 @@ Read more:
 
 ## How authentication works
 
-Trade It supports:
-- API keys for direct API access
+This skill always sends:
 
-For this skill:
-- `TRADEIT_ACCESS_TOKEN` is required
+```http
+Authorization: Bearer <TRADEIT_ACCESS_TOKEN>
+```
 
-API keys can be created here after creating a Trade It account:
+`TRADEIT_ACCESS_TOKEN` is required and should be a bearer token value.
+
+Token sources:
+- API key token from your Trade It account (direct API access)
+- OAuth access token from a partner integration flow
+
+If you use API keys, generate them here:
 - <https://tradeit.app/account/api-keys>
+
+For endpoint-level auth examples, see `tradeit-api/references/api-reference.md`.
 
 ## How the skill behaves
 
@@ -83,6 +91,15 @@ But if users wish to give the bot complete control to execute trades on their be
 When enabled, a `create_trade` or `create_options_trade` call may place the trade immediately, skipping the separate execution step.
 
 That means this skill does **not** blindly assume every create call is draft-only. It checks status first.
+
+### Canonical happy path
+
+Use this sequence as the default agent behavior:
+1. fetch user/account context (`get-user`, `get-accounts`)
+2. create trade (`create-trade` or `create-options-trade`)
+3. inspect returned `status`
+4. if `status` is `draft`, ask for explicit confirmation before `execute-trade`
+5. if `status` is already `placed`, report that `yolo_mode` executed immediately and do not execute again
 
 ## Repo contents
 
@@ -124,22 +141,15 @@ This is for:
 - developers building AI trading assistants or chatbot workflows
 - products that want a unified brokerage layer instead of brokerage-by-brokerage integrations
 
-## Questions, support, and contact
+## Links
 
-If you have questions about Trade It, supported brokerages, security, or integration details:
-- Contact page: <https://tradeit.app/contact>
-- Main site: <https://tradeit.app>
 - Docs: <https://docs.tradeit.app>
 - FAQ: <https://tradeit.app/faq>
-
-## Legal and policy links
-
-- Website: <https://tradeit.app>
-- Docs: <https://docs.tradeit.app>
 - Security: <https://tradeit.app/security>
 - Privacy Policy: <https://tradeit.app/privacy-policy>
 - Terms of Service: <https://tradeit.app/terms-of-service>
 - Contact: <https://tradeit.app/contact>
+- Website: <https://tradeit.app>
 
 ## License
 
