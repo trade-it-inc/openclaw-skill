@@ -30,3 +30,5 @@ All investing involves risk, including the possible loss of principal.
 Brokerage access is sensitive. Users should connect brokerages intentionally, review orders carefully, and understand that granting Trade It access allows it to place trades on their behalf.
 
 Security claims herein are summaries of Trade It's public policies. Do not turn them into broader guarantees, compliance claims, or statements about being risk-free.
+
+For new integrations, test with non-production credentials or a deliberately limited setup first and verify connect/session flows before relying on them in production.

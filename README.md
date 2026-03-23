@@ -56,7 +56,6 @@ Trade It supports:
 
 For this skill:
 - `TRADEIT_ACCESS_TOKEN` is required
-- `TRADEIT_API_URL` is optional and defaults to `https://api.tradeit.app`
 
 API keys can be created here after creating a Trade It account:
 - <https://tradeit.app/account/api-keys>

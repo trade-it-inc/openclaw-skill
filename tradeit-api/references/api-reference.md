@@ -10,7 +10,7 @@ Authorization: Bearer {{access_token}}
 ```
 
 ```txt
-{{api_url}}
+https://api.tradeit.app
 ```
 
 Auth models mentioned by the collection:

@@ -19,7 +19,6 @@ Skill path helpers:
 
 Expected env vars for the agent run:
 - `TRADEIT_ACCESS_TOKEN` required
-- `TRADEIT_API_URL` optional; defaults to `https://api.tradeit.app`
 
 `TRADEIT_ACCESS_TOKEN` can be an API key or OAuth bearer token.
 
@@ -203,3 +202,4 @@ When reporting results:
 - include raw JSON only when the user asks or debugging is needed
 - redact secrets if the API response ever reflects them
 - when `yolo_mode` caused immediate placement, say that explicitly
+t, say that explicitly
