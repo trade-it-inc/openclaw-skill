@@ -1,18 +1,17 @@
 # Trade It OpenClaw Skill
 
-Use Trade It in OpenClaw to connect brokerages, inspect accounts and holdings, and place trades on supported brokerage accounts.
+Use Trade It in OpenClaw to connect brokerages, inspect accounts and holdings, and place trades on [supported brokerage accounts](https://docs.tradeit.app/brokerages): Robinhood, ETrade, Charles Schwab, Webull, Public, Tastytrade, Coinbase, and Kraken.
 
 This repo contains a publishable OpenClaw skill that teaches agents how to use the Trade It API safely and consistently.
 
-## What this is
+## What this is and what users can do with it
 
-This project packages Trade It as an OpenClaw skill so agents can:
-- connect a user's brokerage account through Trade It
-- inspect linked brokerage accounts and holdings
+This project packages Trade It as an OpenClaw skill. With the right Trade It credentials, agents can help users:
+- link brokerage accounts through secure OAuth flows
+- inspect linked brokerage accounts, holdings, and trade history
 - create stock and options trades
-- check trade status and history
+- execute trades on supported brokerages after explicit confirmation when appropriate
 - generate hosted Trade It connect or trade URLs for browser handoff
-- execute trades after explicit confirmation when appropriate
 
 The skill includes:
 - a `SKILL.md` file that tells OpenClaw when and how to use Trade It
@@ -21,19 +20,7 @@ The skill includes:
 
 ## Why this exists
 
-Trade It is a good fit for OpenClaw and other AI agents because it gives chat-driven products a clean path to real brokerage actions without forcing every integrator to build custom brokerage support from scratch.
-
-Instead of wiring each brokerage individually, agents can use Trade It's unified API and hosted connect/review flows.
-
-## What users can do with it
-
-With the right Trade It credentials, this skill can help users:
-- link accounts on Robinhood, ETrade, Charles Schwab, Webull, Public, Tastytrade, Coinbase, and Kraken
-- fetch account, holdings, and trade data
-- create simple equity trades
-- create options trades
-- generate browser handoff flows for connection or hosted trade review
-- execute trades on supported brokerages
+Trade It is a great fit for OpenClaw and other AI agents because it gives chat-driven products a clean path to real brokerage actions without forcing every integrator to build custom brokerage support from scratch.
 
 ## Trust, security, and user control
 
