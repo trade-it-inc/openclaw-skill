@@ -4,7 +4,7 @@
 
 # Trade It OpenClaw Skill
 
-Use Trade It in OpenClaw to connect brokerages, inspect accounts and holdings, and place trades on [supported brokerage accounts](https://docs.tradeit.app/brokerages): Robinhood, ETrade, Charles Schwab, Webull, Public, Tastytrade, Coinbase, and Kraken.
+Use [Trade It](https://tradeit.app) in OpenClaw to connect brokerages, inspect accounts and holdings, and place trades on [supported brokerage accounts](https://docs.tradeit.app/brokerages): Robinhood, ETrade, Charles Schwab, Webull, Public, Tastytrade, Coinbase, and Kraken.
 
 This repo contains a publishable OpenClaw skill that teaches agents how to use the Trade It API safely and consistently.
 
