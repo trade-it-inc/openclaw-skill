@@ -164,7 +164,13 @@ def main():
     access_token = env_or("TRADEIT_ACCESS_TOKEN", args.access_token)
 
     if args.command == "get-user":
-        out = request_json("GET", API_BASE_URL, access_token, "/api/auth/login")
+        out = request_json(
+            "GET",
+            API_BASE_URL,
+            access_token,
+            "/api/user/me",
+            query={"expand": "brokerage_connections[accounts]"},
+        )
     elif args.command == "get-connection":
         out = request_json("GET", API_BASE_URL, access_token, f"/api/brokerageConnection/{args.id}")
     elif args.command == "get-holdings":

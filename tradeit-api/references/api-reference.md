@@ -49,7 +49,7 @@ Trade It uses endpoint-specific field casing. Do not normalize globally.
 ```json
 {
   "read": [
-    "GET /api/auth/login",
+    "GET /api/user/me",
     "GET /api/brokerageConnection/:id",
     "GET /api/account/:id/holdings",
     "GET /api/trade",
@@ -71,7 +71,7 @@ Trade It uses endpoint-specific field casing. Do not normalize globally.
 ## 1. Get User
 
 ```http
-GET /api/auth/login
+GET /api/user/me?expand="brokerage_connections[accounts]
 ```
 
 Representative response:

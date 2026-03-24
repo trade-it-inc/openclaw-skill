@@ -147,7 +147,7 @@ export function createTradeItSessionUrl(
 
 ```ts
 export function getTradeItUser(accessToken: string) {
-  return tradeItFetch('/api/auth/login', { method: 'GET' }, accessToken);
+  return tradeItFetch('/api/user/me', { method: 'GET' }, accessToken);
 }
 
 export function getTradeItConnection(accessToken: string, id: number) {

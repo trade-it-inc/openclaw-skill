@@ -13,7 +13,7 @@ Use when your agent should:
 - execute after confirmation
 
 Key endpoints:
-- `GET /api/auth/login`
+- `GET /api/user/me`
 - `POST /api/tool/execute`
 - `GET /api/trade`
 - `GET /api/account/:id/holdings`
